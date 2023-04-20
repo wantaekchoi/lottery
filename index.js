@@ -26,14 +26,18 @@ function sumNumericResults(results) {
     .reduce((a, b) => a + b, 0);
 }
 
+function updateSum() {
+  const resultsInput = document.getElementById("results");
+  const results = filterAndTrim(resultsInput.value);
+  const sum = sumNumericResults(results);
+  document.getElementById("sum").innerText = `${sumMessage}: ${sum}`;
+}
+
 function matchParticipantsAndResults(participants, results) {
   let output = "";
   participants.forEach((participant, index) => {
     output += `${participant}: ${results[index]}<br>`;
   });
-
-  const sum = sumNumericResults(results);
-  output += `${sumMessage}: ${sum}`;
   return output;
 }
 
@@ -64,7 +68,10 @@ function drawResult() {
   }
 
   const shuffledResults = fisherYatesShuffle(results);
-  const output = matchParticipantsAndResults(sortedParticipants, shuffledResults);
+  const output = matchParticipantsAndResults(
+    sortedParticipants,
+    shuffledResults
+  );
   document.getElementById("output").innerHTML = output;
 }
 
@@ -75,14 +82,20 @@ function updateItemCount(inputId, outputId) {
   output.innerText = `(${itemCount})`;
 }
 
+function init() {
+  updateItemCount("participants", "participantsCount");
+  updateItemCount("results", "resultsCount");
+  updateSum();
+}
+
 document
   .getElementById("participants")
   .addEventListener("input", () =>
     updateItemCount("participants", "participantsCount")
   );
-document
-  .getElementById("results")
-  .addEventListener("input", () => updateItemCount("results", "resultsCount"));
+document.getElementById("results").addEventListener("input", () => {
+  updateItemCount("results", "resultsCount");
+  updateSum();
+});
 
-updateItemCount("participants", "participantsCount");
-updateItemCount("results", "resultsCount");
+init();

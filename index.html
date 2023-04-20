@@ -1,28 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>추첨기</title>
+  <style>
+    .usage {
+      border: 1px solid #000;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+  </style>
 </head>
 
 <body>
   <h1>추첨기</h1>
-
-  <form>
-    <label for="participants">참가자:</label>
-    <input type="text" id="participants" name="participants" placeholder="A, B, C, D, E, F, G" , value="A, B, C, D, E, F, G">
-    <span id="participantsCount">(-1)</span><br>
-
-    <label for="results">결과:</label>
-    <input type="text" id="results" name="results" placeholder="1, 2, 3, 4" , value="1, 2, 3, 4">
-    <span id="resultsCount">(-1)</span><br>
-
-    <button type="button" onclick="drawResult()">추첨</button>
-  </form>
-
-  <p id="output"></p>
-
+  <div class="usage">
+    <h3>사용법:</h3>
+    <ol>
+      <li>참가자를 입력하세요: 추첨에 참여할 참가자들의 이름을 쉼표로 구분하여 입력합니다. 중복된 이름이 있는 경우 경고 메시지가 표시됩니다.</li>
+      <li>결과를 입력하세요: 참가자들에게 할당할 결과 값을 쉼표로 구분하여 입력합니다. 결과 값이 참가자 수보다 적은 경우, 부족한 만큼 EMPTY(빈 결과)가 추가됩니다. 결과 값 중 숫자인 경우 합계를
+        계산하여 입력창 아래에 실시간으로 출력합니다.</li>
+      <li>'추첨' 버튼을 클릭하세요: 입력된 참가자와 결과 값을 무작위로 매칭한 후, 결과를 출력합니다.</li>
+    </ol>
+  </div>
+  <div>
+    <label for="participants" class="input-label">참가자:</label>
+    <span id="participantsCount">(0)</span>
+    <input type="text" id="participants" placeholder="A, B, C, D, E, F, G" value="A, B, C, D, E, F, G">
+  </div>
+  <div>
+    <label for="results" class="input-label">결과:</label>
+    <span id="resultsCount">(0)</span>
+    <input type="text" id="results" placeholder="1, 2, 3, 4, 5" value="1, 2, 3, 4, 5">
+    <div id="sum" style="margin-left: 100px;"></div>
+  </div>
+  <div id="sum" style="margin-left: 100px;"></div>
+  <button onclick="drawResult()">추첨</button>
+  <h2>출력 결과</h2>
+  <div id="output"></div>
   <script src="index.js"></script>
 </body>
 

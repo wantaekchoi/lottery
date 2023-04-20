@@ -1,47 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>추첨기</title>
-  </head>
-  <body>
-    <h1>추첨기</h1>
 
-    <form>
-      <label for="participants">참가자:</label>
-      <input type="text" id="participants" name="participants"><br>
+<head>
+  <meta charset="utf-8">
+  <title>추첨기</title>
+</head>
 
-      <label for="results">결과:</label>
-      <input type="text" id="results" name="results"><br>
+<body>
+  <h1>추첨기</h1>
 
-      <button type="button" onclick="drawResult()">추첨</button>
-    </form>
+  <form>
+    <label for="participants">참가자:</label>
+    <input type="text" id="participants" name="participants" placeholder="A, B, C, D, E, F, G" , value="A, B, C, D, E, F, G">
+    <span id="participantsCount">(-1)</span><br>
 
-    <p id="output"></p>
+    <label for="results">결과:</label>
+    <input type="text" id="results" name="results" placeholder="1, 2, 3, 4" , value="1, 2, 3, 4">
+    <span id="resultsCount">(-1)</span><br>
 
-    <script>
-      function drawResult() {
-        // 참가자와 결과값을 가져옵니다.
-        const participantsInput = document.getElementById('participants');
-        const resultsInput = document.getElementById('results');
-        const participants = participantsInput.value.split(',');
-        const results = resultsInput.value.split(',');
+    <button type="button" onclick="drawResult()">추첨</button>
+  </form>
 
-        // 참가자와 결과값을 무작위로 섞습니다.
-        const shuffledParticipants = participants.sort(() => Math.random() - 0.5);
-        const shuffledResults = results.sort(() => Math.random() - 0.5);
+  <p id="output"></p>
 
-        // 결과값을 출력할 변수를 생성합니다.
-        let output = '';
+  <script src="index.js"></script>
+</body>
 
-        // 각 참가자에게 결과값을 매칭합니다.
-        shuffledParticipants.forEach((participant, index) => {
-          output += `${participant}: ${shuffledResults[index]}<br>`;
-        });
-
-        // 결과값을 출력합니다.
-        document.getElementById('output').innerHTML = output;
-      }
-    </script>
-  </body>
 </html>

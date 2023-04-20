@@ -82,6 +82,23 @@ function updateItemCount(inputId, outputId) {
   output.innerText = `(${itemCount})`;
 }
 
+function loadCSV(inputId, targetId) {
+  const fileInput = document.getElementById(inputId);
+  const targetInput = document.getElementById(targetId);
+  const file = fileInput.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      targetInput.value = contents.replace(/\r?\n|\r/g, ",");
+      updateItemCount(targetId, `${targetId}Count`);
+      updateSum();
+    };
+    reader.readAsText(file);
+  }
+}
+
 function init() {
   updateItemCount("participants", "participantsCount");
   updateItemCount("results", "resultsCount");

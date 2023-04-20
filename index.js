@@ -1,43 +1,77 @@
-function drawResult() {
-  const emptyItem = "입력이 없습니다";
-  const participantsInput = document.getElementById("participants");
-  const resultsInput = document.getElementById("results");
-  const participants = participantsInput.value
+const emptyItem = "EMPTY";
+const duplicateParticipantsMessage = "중복된 참가자가 있습니다: ";
+const sumMessage = "결과 값 합계";
+
+function filterAndTrim(input) {
+  return input
     .split(",")
     .filter((item) => item.trim() !== "")
     .map((item) => item.trim());
-  const results = resultsInput.value
-    .split(",")
-    .filter((item) => item.trim() !== "");
+}
 
-  // 참가자 중복 확인
+function findDuplicateParticipants(participants) {
   const uniqueParticipants = [...new Set(participants)];
-  if (uniqueParticipants.length !== participants.length) {
-    alert("중복된 참가자가 있습니다.");
+  if (uniqueParticipants.length === participants.length) return [];
+
+  const duplicateParticipants = participants.filter(
+    (item, index) => participants.indexOf(item) !== index
+  );
+  return [...new Set(duplicateParticipants)];
+}
+
+function sumNumericResults(results) {
+  return results
+    .map((result) => parseFloat(result))
+    .filter((result) => !isNaN(result))
+    .reduce((a, b) => a + b, 0);
+}
+
+function matchParticipantsAndResults(participants, results) {
+  let output = "";
+  participants.forEach((participant, index) => {
+    output += `${participant}: ${results[index]}<br>`;
+  });
+
+  const sum = sumNumericResults(results);
+  output += `${sumMessage}: ${sum}`;
+  return output;
+}
+
+function fisherYatesShuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function drawResult() {
+  const participantsInput = document.getElementById("participants");
+  const resultsInput = document.getElementById("results");
+
+  const participants = filterAndTrim(participantsInput.value);
+  const results = filterAndTrim(resultsInput.value);
+
+  const duplicateParticipants = findDuplicateParticipants(participants);
+  if (duplicateParticipants.length > 0) {
+    alert(`${duplicateParticipantsMessage}${duplicateParticipants.join(", ")}`);
     return;
   }
 
-  // 참가자를 오름차순으로 정렬
   const sortedParticipants = participants.sort((a, b) => a.localeCompare(b));
-  const shuffledResults = results.sort(() => Math.random() - 0.5);
+  while (results.length < sortedParticipants.length) {
+    results.push(emptyItem);
+  }
 
-  let output = "";
-
-  sortedParticipants.forEach((participant, index) => {
-    output += `${participant ?? emptyItem}: ${
-      shuffledResults[index] ?? emptyItem
-    }<br>`;
-  });
-
+  const shuffledResults = fisherYatesShuffle(results);
+  const output = matchParticipantsAndResults(sortedParticipants, shuffledResults);
   document.getElementById("output").innerHTML = output;
 }
 
 function updateItemCount(inputId, outputId) {
   const input = document.getElementById(inputId);
   const output = document.getElementById(outputId);
-  const itemCount = input.value
-    .split(",")
-    .filter((item) => item.trim() !== "").length;
+  const itemCount = filterAndTrim(input.value).length;
   output.innerText = `(${itemCount})`;
 }
 

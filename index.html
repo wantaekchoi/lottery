@@ -41,19 +41,19 @@
     <label for="participants" class="input-label">참가자</label>
     <span id="participantsCount"></span>
     <input type="text" id="participants" placeholder="A, B, C, D, E, F, G" value="A, B, C, D, E, F, G">
-    <input type="file" id="participantsFile" accept=".csv" onchange="loadCSV('participantsFile', 'participants')">
+    <input type="file" id="participantsFile" accept=".csv">
   </div>
   <div>
     <label for="results" class="input-label">결과</label>
     <span id="resultsCount"></span>
     <input type="text" id="results" placeholder="1, 2, 3, 4, 5" value="1, 2, 3, 4, 5">
-    <input type="file" id="resultsFile" accept=".csv" onchange="loadCSV('resultsFile', 'results')">
-    <span id="sum"></sapn>
+    <input type="file" id="resultsFile" accept=".csv">
+    <span id="sum"></span>
   </div>
-  <button onclick="drawResult()">추첨</button>
+  <button id="drawButton">추첨</button>
   <h2>출력 결과</h2>
   <div id="output"></div>
-  <script src="index.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>
